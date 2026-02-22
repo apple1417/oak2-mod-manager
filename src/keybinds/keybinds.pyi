@@ -19,42 +19,25 @@ type _BlockSignal = None | Block | type[Block]
 def register_keybind(
     key: str,
     event: EInputEvent,
-    gameplay_bind: bool,
     callback: Callable[[], _BlockSignal],
-) -> _KeybindHandle: ...
-@overload
-def register_keybind(
-    key: None,
-    event: EInputEvent,
-    gameplay_bind: bool,
-    callback: Callable[[str], _BlockSignal],
 ) -> _KeybindHandle: ...
 @overload
 def register_keybind(
     key: str,
     event: None,
-    gameplay_bind: bool,
     callback: Callable[[EInputEvent], _BlockSignal],
-) -> _KeybindHandle: ...
-@overload
-def register_keybind(
-    key: None,
-    event: None,
-    gameplay_bind: bool,
-    callback: Callable[[str, EInputEvent], _BlockSignal],
 ) -> _KeybindHandle: ...
 def register_keybind(
     key: str | None,
     event: EInputEvent | None,
-    gameplay_bind: bool,
     callback: Callable[..., _BlockSignal],
 ) -> _KeybindHandle:
     """
     Registers a new keybind.
 
-    If key or event are None, any key or event will be matched, and their values
-    will be passed back to the callback. Therefore, based on these args, the
-    callback is run with 0-2 arguments.
+    If an event is given, the callback will only match that event, and will be
+    called with no args. Otherwise, it will be called on every key event, with the
+    event passed as an arg.
 
     The callback may return the sentinel `Block` type (or an instance thereof) in
     order to block normal processing of the key event.
@@ -62,7 +45,6 @@ def register_keybind(
     Args:
         key: The key to match, or None to match any.
         event: The key event to match, or None to match any.
-        gameplay_bind: True if this keybind should only trigger during gameplay.
         callback: The callback to use.
     Returns:
         An opaque handle to be used in calls to deregister_keybind.
