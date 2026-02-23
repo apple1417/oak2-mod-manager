@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from ._uobject_children import UField, UFunction, UProperty, UScriptStruct, UStruct
+from ._uobject_children import UField, UFunction, UScriptStruct, UStruct, ZProperty
 
 IGNORE_STRUCT: object
 """
@@ -83,7 +83,7 @@ class WrappedStruct:
         Returns:
             This struct's address.
         """
-    def _get_field(self, field: UField | UProperty) -> Any:
+    def _get_field(self, field: UField | ZProperty) -> Any:
         """
         Reads an unreal field off of the struct.
 
@@ -97,7 +97,7 @@ class WrappedStruct:
         Returns:
             The field's value.
         """
-    def _set_field(self, field: UField | UProperty, value: Any) -> None:
+    def _set_field(self, field: UField | ZProperty, value: Any) -> None:
         """
         Writes a value to an unreal field on the struct.
 

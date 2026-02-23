@@ -5,10 +5,10 @@ from collections.abc import Callable, Iterator, Sequence
 from types import GenericAlias
 from typing import Any, Never, Self, overload
 
-from ._uobject_children import UProperty
+from ._uobject_children import ZProperty
 
 class WrappedArray[T = Any]:
-    _type: UProperty
+    _type: ZProperty
 
     def __init__(self, *args: Any, **kwargs: Any) -> Never: ...
     def __new__(cls, *args: Any, **kwargs: Any) -> Never: ...

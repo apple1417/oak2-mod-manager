@@ -6,10 +6,10 @@
 #include "pyunrealsdk/unreal_bindings/uenum.h"
 #include "unrealsdk/memory.h"
 #include "unrealsdk/unreal/class_name.h"
-#include "unrealsdk/unreal/classes/properties/uboolproperty.h"
 #include "unrealsdk/unreal/classes/uenum.h"
 #include "unrealsdk/unreal/classes/uobject.h"
 #include "unrealsdk/unreal/classes/uobject_funcs.h"
+#include "unrealsdk/unreal/properties/zboolproperty.h"
 #include "unrealsdk/unreal/structs/fname.h"
 #include "unrealsdk/unrealsdk.h"
 
@@ -95,8 +95,8 @@ bool handle_key_event(UGbxEnhancedPlayerInput* self, FInputKeyParams* params) {
     }
     // This seems a a bit wrong but does seem to work, even on controller
     static auto show_mouse_cursor =
-        validate_type<UBoolProperty>(pc_class->find_prop(L"bShowMouseCursor"_fn));
-    auto is_in_menu = player_controller->get<UBoolProperty>(show_mouse_cursor);
+        validate_type<ZBoolProperty>(pc_class->find_prop(L"bShowMouseCursor"_fn));
+    auto is_in_menu = player_controller->get<ZBoolProperty>(show_mouse_cursor);
     if (is_in_menu) {
         return false;
     }

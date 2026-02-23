@@ -3,7 +3,7 @@ from __future__ import annotations
 from contextlib import AbstractContextManager
 from typing import Any, Never
 
-from ._uobject_children import UClass, UField, UProperty
+from ._uobject_children import UClass, UField, ZProperty
 
 class UObject:
     """
@@ -66,7 +66,7 @@ class UObject:
         Returns:
             This object's address.
         """
-    def _get_field(self, field: UField | UProperty) -> Any:
+    def _get_field(self, field: UField | ZProperty) -> Any:
         """
         Reads an unreal field off of the object.
 
@@ -87,7 +87,7 @@ class UObject:
         Returns:
             This object's name.
         """
-    def _post_edit_change_chain_property(self, prop: UProperty, *chain: UProperty) -> None:
+    def _post_edit_change_chain_property(self, prop: ZProperty, *chain: ZProperty) -> None:
         """
         Notifies the engine that we've made an external change to a chain of properties.
 
@@ -97,7 +97,7 @@ class UObject:
             prop: The property which was changed.
             *chain: The chain of properties to follow.
         """
-    def _post_edit_change_property(self, prop: UProperty | str) -> None:
+    def _post_edit_change_property(self, prop: ZProperty | str) -> None:
         """
         Notifies the engine that we've made an external change to a property.
 
@@ -108,7 +108,7 @@ class UObject:
         Args:
             prop: The property, or the name of the property, which was changed.
         """
-    def _set_field(self, field: UField | UProperty, value: Any) -> None:
+    def _set_field(self, field: UField | ZProperty, value: Any) -> None:
         """
         Writes a value to an unreal field on the object.
 

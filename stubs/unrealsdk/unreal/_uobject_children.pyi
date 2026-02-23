@@ -71,18 +71,11 @@ class UField(UObject):
 class UConst(UField):
     Value: str
 
-class UProperty(FField):
-    ArrayDim: int
-    ElementSize: int
-    PropertyFlags: int
-    Offset_Internal: int
-    PropertyLinkNext: UProperty | None
-
 class UStruct(UField):
     SuperField: UStruct | None
     Children: UField | None
     PropertySize: int
-    PropertyLink: UProperty | None
+    PropertyLink: ZProperty | None
     MinAlignment: int
     ChildProperties: FField | None
 
@@ -93,7 +86,7 @@ class UStruct(UField):
         Returns:
             An iterator over all fields in the struct.
         """
-    def _find(self, name: str) -> UField | UProperty:
+    def _find(self, name: str) -> UField | ZProperty:
         """
         Finds a child field by name.
 
@@ -104,7 +97,7 @@ class UStruct(UField):
         Returns:
             The found child field.
         """
-    def _find_prop(self, name: str) -> UProperty:
+    def _find_prop(self, name: str) -> ZProperty:
         """
         Finds a child property by name.
 
@@ -135,7 +128,7 @@ class UStruct(UField):
         Returns:
             True if this struct is the given struct, or inherits from it.
         """
-    def _properties(self) -> Iterator[UProperty]:
+    def _properties(self) -> Iterator[ZProperty]:
         """
         Iterates over all properties in the struct.
 
@@ -152,19 +145,14 @@ class UStruct(UField):
             An iterator over all superfields in the struct.
         """
 
+class ZProperty(FField):
+    ArrayDim: int
+    ElementSize: int
+    PropertyFlags: int
+    Offset_Internal: int
+    PropertyLinkNext: ZProperty | None
+
 # ======== Third Layer Subclasses ========
-
-class FGbxDefPtrProperty(UProperty):
-    Struct: UScriptStruct
-
-class UArrayProperty(UProperty):
-    Inner: UProperty
-
-class UBoolProperty(UProperty):
-    FieldMask: int
-
-class UByteProperty(UProperty):
-    Enum: UEnum | None
 
 class UClass(UStruct):
     ClassDefaultObject: UObject
@@ -180,24 +168,13 @@ class UClass(UStruct):
             True if this class implements the interface, false otherwise.
         """
 
-class UDelegateProperty(UProperty):
-    Signature: UFunction
-
-class UDoubleProperty(UProperty): ...
-
-class UEnumProperty(UProperty):
-    UnderlyingProp: UProperty
-    Enum: UEnum
-
-class UFloatProperty(UProperty): ...
-
 class UFunction(UStruct):
     FunctionFlags: int
     NumParams: int
     ParamsSize: int
     ReturnValueOffset: int
 
-    def _find_return_param(self) -> UProperty:
+    def _find_return_param(self) -> ZProperty:
         """
         Finds the return param for this function (if it exists).
 
@@ -205,61 +182,84 @@ class UFunction(UStruct):
             The return param, or None if it doesn't exist.
         """
 
-class UInt16Property(UProperty): ...
-class UInt64Property(UProperty): ...
-class UInt8Property(UProperty): ...
-class UIntProperty(UProperty): ...
-
-class UInterfaceProperty(UProperty):
-    InterfaceClass: UClass
-
-class UMulticastDelegateProperty(UProperty):
-    Signature: UFunction
-
-class UNameProperty(UProperty): ...
-
-class UObjectProperty(UProperty):
-    PropertyClass: UClass
-
 class UScriptStruct(UStruct):
     StructFlags: int
 
-class UStrProperty(UProperty): ...
+class ZArrayProperty(ZProperty):
+    Inner: ZProperty
 
-class UStructProperty(UProperty):
+class ZBoolProperty(ZProperty):
+    FieldMask: int
+
+class ZByteProperty(ZProperty):
+    Enum: UEnum | None
+
+class ZDelegateProperty(ZProperty):
+    Signature: UFunction
+
+class ZDoubleProperty(ZProperty): ...
+
+class ZEnumProperty(ZProperty):
+    UnderlyingProp: ZProperty
+    Enum: UEnum
+
+class ZFloatProperty(ZProperty): ...
+
+class ZGbxDefPtrProperty(ZProperty):
     Struct: UScriptStruct
 
-class UTextProperty(UProperty): ...
-class UUInt16Property(UProperty): ...
-class UUInt32Property(UProperty): ...
-class UUInt64Property(UProperty): ...
+class ZInt16Property(ZProperty): ...
+class ZInt64Property(ZProperty): ...
+class ZInt8Property(ZProperty): ...
+class ZIntProperty(ZProperty): ...
+
+class ZInterfaceProperty(ZProperty):
+    InterfaceClass: UClass
+
+class ZMulticastDelegateProperty(ZProperty):
+    Signature: UFunction
+
+class ZNameProperty(ZProperty): ...
+
+class ZObjectProperty(ZProperty):
+    PropertyClass: UClass
+
+class ZStrProperty(ZProperty): ...
+
+class ZStructProperty(ZProperty):
+    Struct: UScriptStruct
+
+class ZTextProperty(ZProperty): ...
+class ZUInt16Property(ZProperty): ...
+class ZUInt32Property(ZProperty): ...
+class ZUInt64Property(ZProperty): ...
 
 # ======== Fourth Layer Subclasses ========
 
 class UBlueprintGeneratedClass(UClass): ...
 
-class UByteAttributeProperty(UByteProperty):
-    ModifierStackProperty: UArrayProperty
-    OtherAttributeProperty: UByteAttributeProperty
+class ZByteAttributeProperty(ZByteProperty):
+    ModifierStackProperty: ZArrayProperty
+    OtherAttributeProperty: ZByteAttributeProperty
 
-class UClassProperty(UObjectProperty):
+class ZClassProperty(ZObjectProperty):
     MetaClass: UClass
 
-class UComponentProperty(UObjectProperty): ...
+class ZComponentProperty(ZObjectProperty): ...
 
-class UFloatAttributeProperty(UFloatProperty):
-    ModifierStackProperty: UArrayProperty
-    OtherAttributeProperty: UFloatAttributeProperty
+class ZFloatAttributeProperty(ZFloatProperty):
+    ModifierStackProperty: ZArrayProperty
+    OtherAttributeProperty: ZFloatAttributeProperty
 
-class UIntAttributeProperty(UIntProperty):
-    ModifierStackProperty: UArrayProperty
-    OtherAttributeProperty: UIntAttributeProperty
+class ZIntAttributeProperty(ZIntProperty):
+    ModifierStackProperty: ZArrayProperty
+    OtherAttributeProperty: ZIntAttributeProperty
 
-class ULazyObjectProperty(UObjectProperty):
+class ZLazyObjectProperty(ZObjectProperty):
     @staticmethod
     def _get_identifier_from(
         source: UObject | WrappedStruct,
-        prop: ULazyObjectProperty | str,
+        prop: ZLazyObjectProperty | str,
         idx: int = 0,
     ) -> bytes:
         """
@@ -290,11 +290,11 @@ class ULazyObjectProperty(UObjectProperty):
             The raw 16 bytes composing the property's Guid.
         """
 
-class USoftObjectProperty(UObjectProperty):
+class ZSoftObjectProperty(ZObjectProperty):
     @staticmethod
     def _get_identifier_from(
         source: UObject | WrappedStruct,
-        prop: USoftObjectProperty | str,
+        prop: ZSoftObjectProperty | str,
         idx: int = 0,
     ) -> str:
         """
@@ -325,9 +325,9 @@ class USoftObjectProperty(UObjectProperty):
             The path name of the object the given property is looking for.
         """
 
-class UWeakObjectProperty(UObjectProperty): ...
+class ZWeakObjectProperty(ZObjectProperty): ...
 
 # ======== Fifth Layer Subclasses ========
 
-class USoftClassProperty(USoftObjectProperty):
+class ZSoftClassProperty(ZSoftObjectProperty):
     MetaClass: UClass
