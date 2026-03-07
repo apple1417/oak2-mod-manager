@@ -251,6 +251,9 @@ class ZFloatAttributeProperty(ZFloatProperty):
     ModifierStackProperty: ZArrayProperty
     OtherAttributeProperty: ZFloatAttributeProperty
 
+class ZGbxInlineStructProperty(ZStructProperty):
+    MetaStruct: UScriptStruct
+
 class ZIntAttributeProperty(ZIntProperty):
     ModifierStackProperty: ZArrayProperty
     OtherAttributeProperty: ZIntAttributeProperty
