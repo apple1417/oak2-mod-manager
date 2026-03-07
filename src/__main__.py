@@ -26,6 +26,7 @@ from functools import cache, wraps
 from io import StringIO
 from pathlib import Path
 from threading import Thread
+from types import ModuleType
 from typing import TYPE_CHECKING, TextIO
 
 # Note we try to import as few third party modules as possible before the console is ready, in case
@@ -164,11 +165,19 @@ def init_ipykernel() -> None:
         # Suppress a couple warnings it throws
         warnings.filterwarnings(action="ignore", category=Warning, module="ipykernel")
 
+        # Create a module and namespace for the code to run in: by default the kernel will attach
+        # to the caller, which leads to the `%reset` magic deleting a fair bit of the SDK...
+        fake_module = ModuleType("<ipykernel>")
+
         # Finally, actually start the kernel
         Thread(
             target=ipykernel.embed.embed_kernel,  # type: ignore
             name="ipykernel",
             daemon=True,
+            kwargs={
+                "module": fake_module,
+                "user_ns": fake_module.__dict__,
+            },
         ).start()
     except ImportError:
         pass
