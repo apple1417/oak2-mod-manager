@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from ._bound_function import BoundFunction
-from ._gbxdefptr import GbxDefPtr
+from ._experimental import FGbxDefPtr, WrappedInlineStruct
 from ._uenum import UEnum
 from ._uobject import UObject, notify_changes
 from ._uobject_children import (
@@ -26,6 +26,7 @@ from ._uobject_children import (
     ZFloatAttributeProperty,
     ZFloatProperty,
     ZGbxDefPtrProperty,
+    ZGbxInlineStructProperty,
     ZInt8Property,
     ZInt16Property,
     ZInt64Property,
@@ -90,7 +91,7 @@ __all__: tuple[str, ...] = (
     "BoundFunction",
     "FField",
     "FFieldClass",
-    "GbxDefPtr",
+    "FGbxDefPtr",
     "UArrayProperty",
     "UBlueprintGeneratedClass",
     "UBoolProperty",
@@ -133,6 +134,7 @@ __all__: tuple[str, ...] = (
     "UWeakObjectProperty",
     "WeakPointer",
     "WrappedArray",
+    "WrappedInlineStruct",
     "WrappedMulticastDelegate",
     "WrappedStruct",
     "ZArrayProperty",
@@ -147,6 +149,7 @@ __all__: tuple[str, ...] = (
     "ZFloatAttributeProperty",
     "ZFloatProperty",
     "ZGbxDefPtrProperty",
+    "ZGbxInlineStructProperty",
     "ZInt8Property",
     "ZInt16Property",
     "ZInt64Property",
