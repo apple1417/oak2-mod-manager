@@ -1,6 +1,6 @@
 # Changelog
 
-## Beta v0.2: Sprezzatura
+## Beta v0.2: Valuepalooza
 - Updated to support the latest version of the game (Mad Ellie)
 
 ### Keybinds v1.1
